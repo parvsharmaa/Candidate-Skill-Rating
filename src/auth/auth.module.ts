@@ -12,7 +12,8 @@ import { UserModule } from '../user/user.module';
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: 'your_secret_key',
+      secret:
+        '5c1c3c421f3050eb9b14cf429b37c5a366722a5d400b06a38e8625bbad41f89c',
       signOptions: { expiresIn: '1h' },
     }),
   ],
