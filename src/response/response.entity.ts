@@ -7,13 +7,13 @@ export class Response {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Question, (question) => question.id)
+  @ManyToOne(() => Question, (question) => question.responses)
   question: Question;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.responses)
   candidate: User;
 
-  @Column()
+  @Column({ nullable: false })
   response: string;
 
   @Column({ nullable: true })

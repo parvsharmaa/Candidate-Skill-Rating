@@ -7,27 +7,38 @@ import { Response } from './response.entity';
 export class ResponseService {
   constructor(
     @InjectRepository(Response)
-    private responsesRepository: Repository<Response>,
+    private responsesRepository: Repository<Response>
   ) {}
 
-  createResponse(
+  async createResponse(
     questionId: number,
     candidateId: number,
-    response: string,
+    response: string
   ): Promise<Response> {
     const newResponse = this.responsesRepository.create({
       question: { id: questionId },
       candidate: { id: candidateId },
-      response,
+      response: response,
     });
     return this.responsesRepository.save(newResponse);
   }
 
-  rateResponse(id: number, rating: number): Promise<Response> {
-    return this.responsesRepository.save({ id, rating });
+  async rateResponse(id: number, rating: number): Promise<Response> {
+    try {
+      const responseToUpdate = await this.responsesRepository.findOne({
+        where: { id },
+      });
+      if (!responseToUpdate) {
+        throw new Error(`Response with id ${id} not found.`);
+      }
+      responseToUpdate.rating = rating;
+      return this.responsesRepository.save(responseToUpdate);
+    } catch (error) {
+      throw new Error(`Failed to rate response: ${error.message}`);
+    }
   }
 
-  findAll(): Promise<Response[]> {
+  async findAll(): Promise<Response[]> {
     return this.responsesRepository.find({
       relations: ['question', 'candidate'],
     });

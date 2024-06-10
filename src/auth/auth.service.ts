@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private readonly usersService: UserService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {}
 
   async validateUser(name: string, pass: string): Promise<any> {
@@ -32,7 +32,7 @@ export class AuthService {
     const newUser = await this.usersService.createUser(
       user.name,
       user.role,
-      hashedPassword,
+      hashedPassword
     );
     return this.login(newUser);
   }

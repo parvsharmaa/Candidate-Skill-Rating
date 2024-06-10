@@ -1,5 +1,3 @@
-// response/response.controller.ts
-
 import {
   Controller,
   Get,
@@ -17,41 +15,41 @@ export class ResponseController {
   constructor(private readonly responseService: ResponseService) {}
 
   @Post()
-  createResponse(
+  async createResponse(
     @Body()
     body: {
       questionId: number;
       candidateId: number;
       response: string;
-    },
+    }
   ): Promise<Response> {
     return this.responseService.createResponse(
       body.questionId,
       body.candidateId,
-      body.response,
+      body.response
     );
   }
 
   @Put(':id/rate')
-  rateResponse(
+  async rateResponse(
     @Param('id') id: number,
-    @Body() body: { rating: number },
+    @Body() body: { rating: number }
   ): Promise<Response> {
     return this.responseService.rateResponse(id, body.rating);
   }
 
   @Get()
-  findAll(): Promise<Response[]> {
+  async findAll(): Promise<Response[]> {
     return this.responseService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<Response | null> {
+  async findOne(@Param('id') id: number): Promise<Response | null> {
     return this.responseService.findOne(id);
   }
 
   @Delete(':id')
-  removeResponse(@Param('id') id: number): Promise<void> {
+  async removeResponse(@Param('id') id: number): Promise<void> {
     return this.responseService.removeResponse(id);
   }
 }

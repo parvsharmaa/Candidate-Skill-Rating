@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Response } from '../response/response.entity';
 
 export enum UserRole {
   CANDIDATE = 'candidate',
@@ -18,4 +19,7 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Response, (response) => response.candidate)
+  responses: Response[];
 }
